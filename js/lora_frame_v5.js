@@ -9,33 +9,34 @@ app.registerExtension({
 			nodeType.prototype.onNodeCreated = function () {
 				const r = onNodeCreated ? onNodeCreated.apply(this, arguments) : undefined;
 
-				// --- OPTIMIZATION 1: Configuration ---
-				// Default to port 8000 since you confirmed that works
+				// Configuration
 				const defaultUrl = "http://127.0.0.1:8000/loras";
-				let resizeTimer; // Variable to help us debounce resizing
+				let resizeTimer;
 
-				// --- Widget Setup ---
-				// Load saved URL from workflow data if it exists, otherwise use default
-				const savedUrl = this.widgets_values?.[0] || defaultUrl;
+				// Widget Setup - Load saved URL from workflow or use default
+				const savedUrl = this.widgets_values?.[0] ?? defaultUrl;
 				const urlWidget = this.addWidget("text", "URL", savedUrl, () => {}, {});
 				
 				this.addWidget("button", "Update / Go", null, () => {
 					loadURL(urlWidget.value);
 				});
 
-				// --- OPTIMIZATION 2: Lightweight Iframe ---
+				// Create iframe with security sandbox
 				const iframe = document.createElement("iframe");
-				
-				// Sandbox permissions allow scripts/forms but prevent it from hijacking the main UI
 				iframe.setAttribute("sandbox", "allow-scripts allow-forms allow-same-origin allow-popups allow-presentation");
-				iframe.setAttribute("loading", "lazy"); // Browser native lazy loading
+				iframe.setAttribute("loading", "lazy");
 				
 				Object.assign(iframe.style, {
 					width: "100%",
 					height: "100%",
 					border: "none",
 					display: "block",
-					backgroundColor: "#222" // Dark grey is easier on eyes than pink
+					backgroundColor: "#222"
+				});
+
+				// Error handling for iframe load failures
+				iframe.addEventListener("error", () => {
+					console.error("LoraWebFrame: Failed to load URL", iframe.src);
 				});
 
 				// Wrapper container
@@ -52,23 +53,25 @@ app.registerExtension({
 					hideOnZoom: false
 				});
 
-				// --- Helper Functions ---
+				// Helper function with URL validation
 				function loadURL(url) {
-					// Don't reload if it's already the same URL to save resources
-					if (iframe.src === url) return;
-					iframe.src = url;
+					if (!url || iframe.src === url) return;
+					
+					try {
+						new URL(url);
+						iframe.src = url;
+					} catch (e) {
+						console.error("LoraWebFrame: Invalid URL", url);
+					}
 				}
 
-				// --- OPTIMIZATION 3: Efficient Resizing ---
+				// Efficient resizing with requestAnimationFrame
 				this.onResize = function (size) {
-					// Use requestAnimationFrame to prevent layout thrashing
 					if (resizeTimer) cancelAnimationFrame(resizeTimer);
 					
 					resizeTimer = requestAnimationFrame(() => {
-						// Header + Widgets ~90px offset
-						const safeHeight = size[1] - 90;
+						const safeHeight = Math.max(size[1] - 90, 100);
 						
-						// Only apply style if dimensions actually changed
 						if (wrapper.style.height !== safeHeight + "px") {
 							wrapper.style.height = safeHeight + "px";
 							domWidget.element.style.height = safeHeight + "px";
@@ -76,15 +79,17 @@ app.registerExtension({
 					});
 				};
 
-				// --- OPTIMIZATION 4: Delayed Startup ---
-				// We wait 1 full second after the node is created to load the content.
-				// This allows ComfyUI to finish its heavy initialization first.
+				// Cleanup handler
+				this.onRemoved = function () {
+					if (resizeTimer) cancelAnimationFrame(resizeTimer);
+					if (iframe) iframe.src = "";
+				};
+
+				// Delayed startup to allow ComfyUI initialization
 				setTimeout(() => {
-					// Set default size only if it's too small
 					if (this.size[0] < 200) {
 						this.setSize([1200, 900]);
 					}
-					// Trigger the load
 					loadURL(urlWidget.value);
 					this.onResize(this.size);
 				}, 1000);
