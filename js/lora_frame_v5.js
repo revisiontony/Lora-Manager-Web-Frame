@@ -15,7 +15,9 @@ app.registerExtension({
 				let resizeTimer; // Variable to help us debounce resizing
 
 				// --- Widget Setup ---
-				const urlWidget = this.addWidget("text", "URL", defaultUrl, (v) => {}, {});
+				// Load saved URL from workflow data if it exists, otherwise use default
+				const savedUrl = this.widgets_values?.[0] || defaultUrl;
+				const urlWidget = this.addWidget("text", "URL", savedUrl, () => {}, {});
 				
 				this.addWidget("button", "Update / Go", null, () => {
 					loadURL(urlWidget.value);
