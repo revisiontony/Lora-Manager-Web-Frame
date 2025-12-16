@@ -6,34 +6,53 @@ A simple custom node that embeds the full [ComfyUI-Lora-Manager](https://github.
 
 ## Prerequisites
 
-This node is a wrapper and **requires** the original extension to be installed and active.
+This node is a wrapper and requires the original extension to be installed and active.
 
-1.  **Install ComfyUI-Lora-Manager:** Use ComfyUI Manager or install manually from [willmiao/ComfyUI-Lora-Manager](https://github.com/willmiao/ComfyUI-Lora-Manager).
-2.  **Verify it works:** Ensure you can access the manager at `http://127.0.0.1:8000/loras` (or your specific port) in your browser before using this node.
-3.  Added my workflows to the github as examples for other users.
+1. Install ComfyUI-Lora-Manager: Use ComfyUI Manager or install manually from [willmiao/ComfyUI-Lora-Manager](https://github.com/willmiao/ComfyUI-Lora-Manager).
+2. Verify it works: Ensure you can access the manager at `http://127.0.0.1:8000/loras` (or your specific port) in your browser before using this node.
 
 ## Installation
 
-1.  Navigate to your ComfyUI `custom_nodes` directory.
-2.  Create a folder named `ComfyUI_Lora_Frame`.
-3.  Inside that folder, ensure your structure looks **exactly** like this:
+### Option 1: Via ComfyUI Manager (Recommended)
+1. Open ComfyUI Manager
+2. Search for "Lora Manager Web Frame"
+3. Click Install
+4. Restart ComfyUI
 
-```text
-custom_nodes/
-└── ComfyUI_Lora_Frame/
-    ├── __init__.py
-    ├── lora_frame.py
-    └── js/
-        └── lora_frame_v5.js
-````
+### Option 2: Manual Installation from ZIP
+1. Download the repository as a ZIP file from GitHub
+2. Extract the ZIP file
+3. Rename the extracted folder from `LoraMangerWebFrame-main` to `LoraMangerWebFrame`
+4. Move the renamed folder to your ComfyUI `custom_nodes` directory:
+   ```
+   ComfyUI/custom_nodes/LoraMangerWebFrame/
+   ```
+5. Restart ComfyUI
+
+### Option 3: Git Clone
+```bash
+cd ComfyUI/custom_nodes
+git clone https://github.com/revisiontony/LoraMangerWebFrame.git
+```
 
 ## Usage
 
+1. Add the "✨ Lora Manager Web Frame" node to your workflow
+2. The node will display the embedded Lora Manager interface
+3. By default, it connects to `http://127.0.0.1:8000/loras`
+
 ### Changing the Address
 
-If your ComfyUI instance is running on a different port or remote address, you can update the target URL directly on the node.
+If your ComfyUI instance is running on a different port or remote address, you can update the target URL directly on the node:
 
-1.  **Click the Address Bar:** Click the text input field at the top of the node displaying the URL.
-2.  **Edit:** Type in your specific address (e.g., `http://127.0.0.1:8000/loras`).
-3.  **Refresh:** Click the **Update / Go** button to reload the embedded frame.
+1. Click the Address Bar: Click the text input field at the top of the node displaying the URL
+2. Edit: Type in your specific address (e.g., `http://127.0.0.1:8000/loras`)
+3. Refresh: Click the Update / Go button to reload the embedded frame
 
+## Example Workflows
+
+Check out the example workflow files included in the repository to see the node in action.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
