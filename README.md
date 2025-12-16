@@ -37,6 +37,3 @@ If your ComfyUI instance is running on a different port or remote address, you c
 2.  **Edit:** Type in your specific address (e.g., `http://127.0.0.1:8000/loras`).
 3.  **Refresh:** Click the **Update / Go** button to reload the embedded frame.
 
-### Next Step
-Would you like me to help you format the `address_guide.png` placeholder text if you haven't taken the screenshot yet?
-```
