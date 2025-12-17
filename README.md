@@ -15,24 +15,23 @@ This node is a wrapper and requires the original extension to be installed and a
 
 ### Option 1: Via ComfyUI Manager (Recommended)
 1. Open ComfyUI Manager
-2. Search for "loramanagerwebframe"
+2. Search for "Lora Manager Web Frame"
 3. Click Install
 4. Restart ComfyUI
 
 ### Option 2: Manual Installation from ZIP
 1. Download the repository as a ZIP file from GitHub
 2. Extract the ZIP file
-3. Rename the extracted folder from `LoraMangerWebFrame-main` to `LoraMangerWebFrame`
-4. Move the renamed folder to your ComfyUI `custom_nodes` directory:
+4. Move the folder to your ComfyUI `custom_nodes` directory:
    ```
-   ComfyUI/custom_nodes/LoraMangerWebFrame/
+   ComfyUI/custom_nodes/Lora-Manger-Web-Frame/
    ```
 5. Restart ComfyUI
 
 ### Option 3: Git Clone
 ```bash
 cd ComfyUI/custom_nodes
-git clone https://github.com/revisiontony/LoraMangerWebFrame.git
+git clone https://github.com/revisiontony/Lora-Manager-Web-Frame
 ```
 
 ## Usage
@@ -65,4 +64,5 @@ Check out the example workflow files included in the repository to see the node 
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
 
