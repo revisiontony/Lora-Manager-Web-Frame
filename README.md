@@ -15,7 +15,7 @@ This node is a wrapper and requires the original extension to be installed and a
 
 ### Option 1: Via ComfyUI Manager (Recommended)
 1. Open ComfyUI Manager
-2. Search for "Lora Manager Web Frame"
+2. Search for "loramanagerwebframe"
 3. Click Install
 4. Restart ComfyUI
 
@@ -65,3 +65,4 @@ Check out the example workflow files included in the repository to see the node 
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
